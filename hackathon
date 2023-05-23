@@ -1,0 +1,32 @@
+WebElement table=driver.findElement(By.tagName("table"));
+		 Workbook  wb=new HSSFWorkbook();//import from apache poi
+		 
+		  Sheet sheet=wb.createSheet("TableData");
+		  int rowNum=0;
+		  
+		  for(WebElement row:table.findElements(By.xpath("//tr")))
+		  {
+			  Row excelRow=sheet.createRow(rowNum);
+			  int colNum=0;
+			  for(WebElement cell : row.findElements(By.tagName("td")))
+			  {
+				  Cell excelCell=excelRow.createCell(colNum);
+				  excelCell.setCellValue(cell.getText());
+				  colNum++;
+			  }
+			  rowNum++;
+		  }
+		  try
+		  {
+			  OutputStream fileOut=new FileOutputStream("TableofHome.xls");
+			  wb.write(fileOut);
+			  wb.close();
+			  fileOut.close();
+			  
+		  }catch(IOException e)
+		  {
+			  e.printStackTrace();
+		  }
+		
+		 }
+}
